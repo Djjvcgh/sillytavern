@@ -11200,6 +11200,13 @@ ${CHARACTER_PROFILE_FORMAT_SAMPLE.trim()}
           }
         }
 
+        // 模糊包含匹配（如 角色名含称号、全名或空格时）
+        for (const [name, config] of Object.entries(PRESET_AVATAR_CONFIG)) {
+          if (s.includes(name) || (Array.isArray(config?.aliases) && config.aliases.some(alias => s.includes(alias)))) {
+            return name;
+          }
+        }
+
         return s;
       };
 
@@ -11595,7 +11602,7 @@ ${CHARACTER_PROFILE_FORMAT_SAMPLE.trim()}
         const 职业 = 人物.职业 || '冒险者';
         const 种族 = 人物.种族 || '';
         const raceStr = 种族 ? ` · ${种族}` : '';
-        const 玩家头像 = (() => { try { return localStorage.getItem('rpg_player_avatar'); } catch (e) { return ''; } })() || getPresetAvatar(名称) || '';
+        const 玩家头像 = (() => { try { return localStorage.getItem('rpg_player_avatar'); } catch (e) { return ''; } })() || 人物.头像 || getPresetAvatar(名称) || '';
 
         // 每次渲染都重新应用背景，避免根节点 CSS 变量被宿主重置后丢失
         const classBackgroundUrl = getClassBackgroundUrl(职业);
