@@ -11510,15 +11510,18 @@ ${CHARACTER_PROFILE_FORMAT_SAMPLE.trim()}
 
       const resolveWorldviewMapSrc = (worldviewLabel) => {
         const worldview = String(worldviewLabel || '').trim();
-        if (worldview === '诡秘地海') return resolveSeaMapUrl();
-        if (worldview === '琥珀之剑') {
+        if (worldview === '诡秘地海' || worldview === '地海' || worldview.includes('地海')) return resolveSeaMapUrl();
+        if (worldview === '琥珀之剑' || worldview === '琥珀' || worldview.includes('琥珀')) {
           return buildAmberMapEmbedUrl(resolveAmberMapBaseUrl());
         }
-        if (worldview === '大明志异') {
+        if (worldview === '大明志异' || worldview === '大明' || worldview.includes('大明')) {
           return buildAmberMapEmbedUrl(resolveDamingMapBaseUrl());
         }
-        if (worldview === '屠龙与都市日常' || worldview === '屠龙与惊悚都市日常') {
+        if (worldview === '屠龙与都市日常' || worldview === '屠龙与惊悚都市日常' || worldview.includes('屠龙') || worldview.includes('龙族')) {
           return buildAmberMapEmbedUrl(resolveDragonMapBaseUrl());
+        }
+        if (worldview === '刀剑神域' || worldview === 'SAO' || worldview.includes('刀剑')) {
+          return dungeonMapDebugUrl;
         }
         return 'https://tangquanghuy.github.io/dnf/map.html?v=10';
       };
@@ -11546,12 +11549,12 @@ ${CHARACTER_PROFILE_FORMAT_SAMPLE.trim()}
           : 3;
         const 时间 = 世界信息.时间 || '';
         const 年历 = 世界信息.年历 || '';
-        const 世界观 = 系统配置.世界观 || '';
-        const isSaoWorldview = 世界观 === '刀剑神域';
-        const isAmberWorldview = 世界观 === '琥珀之剑';
-        const isDamingWorldview = 世界观 === '大明志异';
-        const isDragonWorldview = 世界观 === '屠龙与都市日常' || 世界观 === '屠龙与惊悚都市日常';
-        const isSeaWorldview = 世界观 === '诡秘地海';
+        const 世界观 = (系统配置.世界观 || data?.世界信息?.世界观 || (String(年历 || '').includes('地海历') ? '诡秘地海' : '') || '').trim();
+        const isSaoWorldview = 世界观 === '刀剑神域' || 世界观 === 'SAO' || 世界观.includes('刀剑');
+        const isAmberWorldview = 世界观 === '琥珀之剑' || 世界观 === '琥珀' || 世界观.includes('琥珀');
+        const isDamingWorldview = 世界观 === '大明志异' || 世界观 === '大明' || 世界观.includes('大明');
+        const isDragonWorldview = 世界观 === '屠龙与都市日常' || 世界观 === '屠龙与惊悚都市日常' || 世界观.includes('屠龙') || 世界观.includes('龙族');
+        const isSeaWorldview = 世界观 === '诡秘地海' || 世界观 === '地海' || 世界观.includes('地海');
         const isEmbedWorldview = isAmberWorldview || isDamingWorldview || isDragonWorldview;
         const dungeonIframeSrc = dungeonMapDebugUrl;
         const mapIframeSrc = resolveWorldviewMapSrc(世界观);
