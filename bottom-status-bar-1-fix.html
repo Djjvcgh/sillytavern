@@ -11200,13 +11200,6 @@ ${CHARACTER_PROFILE_FORMAT_SAMPLE.trim()}
           }
         }
 
-        // 模糊包含匹配（如 角色名含称号、全名或空格时）
-        for (const [name, config] of Object.entries(PRESET_AVATAR_CONFIG)) {
-          if (s.includes(name) || (Array.isArray(config?.aliases) && config.aliases.some(alias => s.includes(alias)))) {
-            return name;
-          }
-        }
-
         return s;
       };
 
